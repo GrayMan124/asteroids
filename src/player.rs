@@ -4,25 +4,37 @@ mod position;
 const PLAYER_SPEED: f32 = 10.;
 
 pub struct Player {
-    pos: position::Position,
+    pub pos: Vec2,
     curr_force: Vec2,
     speed: f32,
 }
 
 impl Player {
-    pub fn new(v1: Vec2, v2: Vec2, v3: Vec2) -> Player {
+    pub fn new(position: Vec2) -> Player {
         Player {
-            pos: position::Position::new(v1, v2, v3),
-            curr_force: Vec2::new(0.0, -10.0),
+            pos: position,
+            curr_force: Vec2::new(0.0, -5.0),
             speed: PLAYER_SPEED,
         }
     }
     pub fn draw_player(&self) {
-        draw_triangle(self.pos.v1, self.pos.v2, self.pos.v3, WHITE);
+        draw_triangle(
+            Vec2 {
+                x: self.pos.x,
+                y: self.pos.y - 30.,
+            },
+            Vec2 {
+                x: self.pos.x - 10.,
+                y: self.pos.y - 5.,
+            },
+            Vec2 {
+                x: self.pos.x + 10.,
+                y: self.pos.y - 5.,
+            },
+            WHITE,
+        );
     }
     pub fn update_pos(&mut self, delta: f32) {
-        self.pos.v1 += self.curr_force * delta * self.speed;
-        self.pos.v2 += self.curr_force * delta * self.speed;
-        self.pos.v3 += self.curr_force * delta * self.speed;
+        self.pos += self.curr_force * delta * self.speed;
     }
 }

@@ -10,15 +10,19 @@ async fn main() {
         target: vec2(SCR_W / 2., SCR_H / 2.),
         ..Default::default()
     });
-    let mut player_v1 = Vec2::new(240., 240.);
-    let mut player_v2 = Vec2::new(280., 240.);
-    let mut player_v3 = Vec2::new(260., 200.);
-    let mut player = player::Player::new(player_v1, player_v2, player_v3);
+    let mut player = player::Player::new(Vec2::new(240., 240.));
     loop {
         clear_background(BLACK);
         player.draw_player();
         let delta = get_frame_time();
         player.update_pos(delta);
+        // if is_key_down(KeyCode::Space) {
+        //     player.rotate(0.0);
+        // }
+        // println!(
+        //     "Current position of tip {} {}",
+        //     player.pos.v1[0], player.pos.v1[1]
+        // );
         next_frame().await
     }
 }
