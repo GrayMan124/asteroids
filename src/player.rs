@@ -3,7 +3,7 @@ use std::f32::consts::PI;
 use macroquad::prelude::*;
 mod position;
 
-const PLAYER_SPEED: f32 = 10.;
+const PLAYER_SPEED: f32 = 1.;
 
 pub struct Player {
     pub pos: Vec2,
@@ -19,7 +19,7 @@ impl Player {
         Player {
             pos: position,
             curr_force: Vec2::new(0.0, 0.0),
-            curr_dir: Vec2::new(0.0, 0.0),
+            curr_dir: Vec2::new(0.0, 1.0),
             speed: PLAYER_SPEED,
             draw_vectors: [
                 Vec2::new(0., -30.),
@@ -67,5 +67,10 @@ impl Player {
             self.draw_vectors[i] -= self.offset;
             self.draw_vectors[i] = Vec2::from_angle(angle).rotate(self.draw_vectors[i]);
         }
+        self.curr_dir = Vec2::from_angle(angle).rotate(self.curr_dir);
+    }
+
+    pub fn thrust(&mut self) {
+        self.curr_force -= self.curr_dir * PLAYER_SPEED;
     }
 }

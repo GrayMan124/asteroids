@@ -22,6 +22,9 @@ async fn main() {
         if is_key_down(KeyCode::Right) {
             player.rotate(1.);
         }
+        if is_key_down(KeyCode::Space) {
+            player.thrust();
+        }
         println!(
             "Current position of tip {} {}",
             player.pos[0], player.pos[1]
