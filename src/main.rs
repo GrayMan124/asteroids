@@ -16,13 +16,16 @@ async fn main() {
         player.draw_player();
         let delta = get_frame_time();
         player.update_pos(delta);
-        // if is_key_down(KeyCode::Space) {
-        //     player.rotate(0.0);
-        // }
-        // println!(
-        //     "Current position of tip {} {}",
-        //     player.pos.v1[0], player.pos.v1[1]
-        // );
+        if is_key_down(KeyCode::Left) {
+            player.rotate(-1.);
+        }
+        if is_key_down(KeyCode::Right) {
+            player.rotate(1.);
+        }
+        println!(
+            "Current position of tip {} {}",
+            player.pos[0], player.pos[1]
+        );
         next_frame().await
     }
 }
