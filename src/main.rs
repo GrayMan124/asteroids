@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+mod objects;
 mod player;
 
 #[macroquad::main("Asteroids")]
@@ -10,6 +11,7 @@ async fn main() {
         target: vec2(SCR_W / 2., SCR_H / 2.),
         ..Default::default()
     });
+    let mut projectiles: Vec<objects::Projectile> = Vec::new();
     let mut player = player::Player::new(Vec2::new(240., 240.));
     loop {
         clear_background(BLACK);
@@ -24,6 +26,18 @@ async fn main() {
         }
         if is_key_down(KeyCode::Space) {
             player.thrust();
+        }
+        if is_key_down(KeyCode::E) {
+            let mut projectile = player.shoot();
+            projectiles.push(projectile);
+        }
+
+        let proj_len = projectiles.len();
+        if proj_len > 0 {
+            for i in 0..proj_len {
+                projectiles[i].draw();
+                projectiles[i].update_pos(delta);
+            }
         }
         println!(
             "Current position of tip {} {}",

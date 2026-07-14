@@ -1,7 +1,7 @@
 use std::f32::consts::PI;
 
+use super::objects;
 use macroquad::prelude::*;
-mod position;
 
 const PLAYER_SPEED: f32 = 1.;
 
@@ -72,5 +72,18 @@ impl Player {
 
     pub fn thrust(&mut self) {
         self.curr_force -= self.curr_dir * PLAYER_SPEED;
+    }
+
+    pub fn shoot(&mut self) -> objects::Projectile {
+        objects::Projectile::new(
+            Vec2::new(
+                self.pos.x + self.draw_vectors[0][0],
+                self.pos.y + self.draw_vectors[0][1],
+            ),
+            Vec2::new(
+                self.curr_dir.x * self.curr_force.y,
+                self.curr_dir.y * self.curr_force.y,
+            ),
+        )
     }
 }
