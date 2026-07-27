@@ -7,8 +7,9 @@ const ASTEROID_THICKNESS: f32 = 2.;
 pub struct Asteroid {
     pub pos: Vec2,
     curr_force: Vec2,
-    size: f32,
+    pub size: f32,
     speed: f32,
+    pub alive: bool,
 }
 
 impl Asteroid {
@@ -18,6 +19,7 @@ impl Asteroid {
             curr_force: force,
             speed: ASTEROID_SPEED,
             size: ASTEROID_RADIUS,
+            alive: true,
         }
     }
 

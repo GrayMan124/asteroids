@@ -8,6 +8,7 @@ pub struct Projectile {
     pub pos: Vec2,
     curr_force: Vec2,
     speed: f32,
+    pub alive: bool,
 }
 
 impl Projectile {
@@ -16,6 +17,7 @@ impl Projectile {
             pos: position,
             curr_force: force,
             speed: PROJECTILE_SPEED,
+            alive: true,
         }
     }
 

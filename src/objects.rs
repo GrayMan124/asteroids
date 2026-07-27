@@ -1,3 +1,4 @@
+use macroquad::math;
 use macroquad::prelude::*;
 mod asteroid;
 pub mod projectile;
@@ -31,6 +32,7 @@ impl Projectiles {
                 && proj.pos[0] < screen_width
                 && proj.pos[1] > 0.
                 && proj.pos[1] < screen_height
+                && proj.alive
         });
     }
     pub fn len(&self) -> usize {
@@ -82,7 +84,6 @@ impl Asteroids {
             self.last_spawn = time;
         }
     }
-    //TODO:
     pub fn update_pos(&mut self, delta: f32) {
         for astr in self.list.iter_mut() {
             astr.update_pos(delta);
@@ -94,11 +95,29 @@ impl Asteroids {
         }
     }
     pub fn clean_up(&mut self, screen_width: f32, screen_height: f32) {
-        self.list.retain(|proj| {
-            proj.pos[0] > 0.
-                && proj.pos[0] < screen_width
-                && proj.pos[1] > 0.
-                && proj.pos[1] < screen_height
+        self.list.retain(|astr| {
+            astr.pos[0] > 0.
+                && astr.pos[0] < screen_width
+                && astr.pos[1] > 0.
+                && astr.pos[1] < screen_height
+                && astr.alive
         });
     }
+}
+
+pub fn check_collsion_asteroids(
+    asteroids_list: &mut Asteroids,
+    projectiles_list: &mut Projectiles,
+) -> i32 {
+    let mut score = 0;
+    for astr in asteroids_list.list.iter_mut() {
+        for proj in projectiles_list.list.iter_mut() {
+            if astr.pos.distance(proj.pos) < astr.size {
+                astr.alive = false;
+                proj.alive = false;
+                score += 1;
+            }
+        }
+    }
+    score
 }
