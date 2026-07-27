@@ -93,4 +93,7 @@ impl Player {
             None
         }
     }
+    pub fn check_collision(&self, asteroid_list: &objects::Asteroids) -> bool {
+        false
+    }
 }
