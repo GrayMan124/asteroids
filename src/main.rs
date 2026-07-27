@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use macroquad::time;
 mod objects;
 mod player;
 
@@ -28,8 +29,12 @@ async fn main() {
             player.thrust();
         }
         if is_key_down(KeyCode::E) {
-            let mut projectile = player.shoot();
-            projectiles.push(projectile);
+            match player.shoot(time::get_time()) {
+                Some(projectile) => {
+                    projectiles.push(projectile);
+                }
+                None => {}
+            }
         }
 
         let proj_len = projectiles.len();
@@ -39,10 +44,6 @@ async fn main() {
                 projectiles[i].update_pos(delta);
             }
         }
-        println!(
-            "Current position of tip {} {}",
-            player.pos[0], player.pos[1]
-        );
         next_frame().await
     }
 }
