@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use macroquad::rand;
 use macroquad::time;
 mod objects;
 mod player;
@@ -12,11 +13,11 @@ async fn main() {
         target: vec2(SCR_W / 2., SCR_H / 2.),
         ..Default::default()
     });
-    let mut projectiles: Vec<objects::Projectile> = Vec::new();
+    let mut projectiles_list: objects::Projectiles = objects::Projectiles::new();
+    let mut asteroids_list: objects::Asteroids = objects::Asteroids::new();
     let mut player = player::Player::new(Vec2::new(240., 240.));
     loop {
         clear_background(BLACK);
-        player.draw_player();
         let delta = get_frame_time();
         player.update_pos(delta);
         if is_key_down(KeyCode::Left) {
@@ -31,19 +32,19 @@ async fn main() {
         if is_key_down(KeyCode::E) {
             match player.shoot(time::get_time()) {
                 Some(projectile) => {
-                    projectiles.push(projectile);
+                    projectiles_list.add_proj(projectile);
                 }
                 None => {}
             }
         }
-
-        let proj_len = projectiles.len();
-        if proj_len > 0 {
-            for i in 0..proj_len {
-                projectiles[i].draw();
-                projectiles[i].update_pos(delta);
-            }
-        }
+        projectiles_list.draw();
+        projectiles_list.update_pos(delta);
+        asteroids_list.spawn(time::get_time(), SCR_W, SCR_H);
+        asteroids_list.draw();
+        asteroids_list.update_pos(delta);
+        asteroids_list.clean_up(SCR_W, SCR_H);
+        projectiles_list.clean_up(SCR_W, SCR_H);
+        player.draw_player();
         next_frame().await
     }
 }

@@ -4,7 +4,7 @@ use super::objects;
 use macroquad::prelude::*;
 
 const PLAYER_SPEED: f32 = 1.;
-const ATTACK_SPEED: f64 = 0.70;
+const ATTACK_SPEED: f64 = 0.10;
 
 pub struct Player {
     pub pos: Vec2,
@@ -79,10 +79,10 @@ impl Player {
         self.curr_force -= self.curr_dir * PLAYER_SPEED;
     }
 
-    pub fn shoot(&mut self, time: f64) -> Option<objects::Projectile> {
+    pub fn shoot(&mut self, time: f64) -> Option<objects::projectile::Projectile> {
         if time - self.last_attack > self.attack_speed {
             self.last_attack = time;
-            Some(objects::Projectile::new(
+            Some(objects::projectile::Projectile::new(
                 Vec2::new(
                     self.pos.x + self.draw_vectors[0][0],
                     self.pos.y + self.draw_vectors[0][1],
