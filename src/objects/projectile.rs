@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 
-const PROJECTILE_SPEED: f32 = 20.;
+const PROJECTILE_SPEED: f32 = 200.;
 const PROJECTILE_RADIUS: f32 = 2.;
 
 #[derive(Copy, Clone)]

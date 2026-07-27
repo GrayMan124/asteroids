@@ -84,13 +84,10 @@ impl Player {
             self.last_attack = time;
             Some(objects::projectile::Projectile::new(
                 Vec2::new(
-                    self.pos.x + self.draw_vectors[0][0],
-                    self.pos.y + self.draw_vectors[0][1],
+                    self.pos.x + 1.2 * self.draw_vectors[0][0],
+                    self.pos.y + 1.2 * self.draw_vectors[0][1],
                 ),
-                Vec2::new(
-                    self.curr_dir.x * self.curr_force.y,
-                    self.curr_dir.y * self.curr_force.y,
-                ),
+                Vec2::new(self.curr_dir.x * -1., self.curr_dir.y * -1.),
             ))
         } else {
             None
