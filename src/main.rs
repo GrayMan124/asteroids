@@ -176,7 +176,11 @@ async fn main() {
                 );
                 if is_key_pressed(KeyCode::Space) {
                     game_state = GameState::MainMenu;
-                    //TODO: Reset the game state
+                    projectiles_list = objects::Projectiles::new();
+                    asteroids_list = objects::Asteroids::new();
+                    player = player::Player::new(Vec2::new(240., 240.));
+                    last_fps_check = 0.0;
+                    score = 0;
                 }
             }
         }
