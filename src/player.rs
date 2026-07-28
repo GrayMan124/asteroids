@@ -66,7 +66,7 @@ impl Player {
         Vec2::new(sum_x / 3., sum_y / 3.)
     }
     pub fn rotate(&mut self, dir: f32) {
-        let angle = dir * PI / 48.;
+        let angle = dir * PI / 96.;
         self.offset = self.calculate_avg();
         for i in 0..3 {
             self.draw_vectors[i] -= self.offset;

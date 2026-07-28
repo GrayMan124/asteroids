@@ -1,9 +1,9 @@
-use macroquad::math;
+// use macroquad::math;
 use macroquad::prelude::*;
 mod asteroid;
 pub mod projectile;
 
-const ASTEROIDS_SPAWN_RATE: f64 = 5.;
+const ASTEROIDS_SPAWN_RATE: f64 = 2.;
 
 pub struct Projectiles {
     list: Vec<projectile::Projectile>,
@@ -34,9 +34,6 @@ impl Projectiles {
                 && proj.pos[1] < screen_height
                 && proj.alive
         });
-    }
-    pub fn len(&self) -> usize {
-        self.list.len()
     }
 }
 

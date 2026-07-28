@@ -1,8 +1,6 @@
 use macroquad::prelude::*;
 
-const ASTEROID_SPEED: f32 = 10.;
-const ASTEROID_RADIUS: f32 = 7.;
-const ASTEROID_THICKNESS: f32 = 2.;
+const ASTEROID_THICKNESS: f32 = 1.5;
 
 pub struct Asteroid {
     pub pos: Vec2,
@@ -17,8 +15,8 @@ impl Asteroid {
         Asteroid {
             pos: position,
             curr_force: force,
-            speed: ASTEROID_SPEED,
-            size: ASTEROID_RADIUS,
+            speed: rand::gen_range(10., 50.),
+            size: rand::gen_range(3.0, 25.),
             alive: true,
         }
     }
@@ -31,7 +29,7 @@ impl Asteroid {
         draw_circle_lines(
             self.pos[0],
             self.pos[1],
-            ASTEROID_RADIUS,
+            self.size,
             ASTEROID_THICKNESS,
             WHITE,
         );
