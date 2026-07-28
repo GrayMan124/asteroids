@@ -22,8 +22,14 @@ async fn main() {
     let mut score = 0;
     loop {
         clear_background(BLACK);
-        let (font_size, font_scale, font_aspect) = camera_font_scale(10.);
+        let (font_size, font_scale, font_aspect) = camera_font_scale(20.);
         let text_params = TextParams {
+            font_size,
+            font_scale,
+            font_scale_aspect: font_aspect,
+            ..Default::default()
+        };
+        let game_over_params = TextParams {
             font_size,
             font_scale,
             font_scale_aspect: font_aspect,
@@ -64,6 +70,14 @@ async fn main() {
         asteroids_list.clean_up(SCR_W, SCR_H);
         projectiles_list.clean_up(SCR_W, SCR_H);
         player.draw_player();
+        if player.check_collision(&asteroids_list) {
+            draw_text_ex(
+                &format!("GAME OVER!"),
+                SCR_W / 2.,
+                SCR_H / 2.,
+                game_over_params,
+            );
+        };
         if time::get_time() - last_fps_check > 1. {
             println!("Current fps: {}", time::get_fps());
             last_fps_check = time::get_time();

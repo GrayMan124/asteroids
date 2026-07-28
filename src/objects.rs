@@ -41,7 +41,7 @@ impl Projectiles {
 }
 
 pub struct Asteroids {
-    list: Vec<asteroid::Asteroid>,
+    pub list: Vec<asteroid::Asteroid>,
     last_spawn: f64,
 }
 

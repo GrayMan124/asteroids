@@ -94,6 +94,19 @@ impl Player {
         }
     }
     pub fn check_collision(&self, asteroid_list: &objects::Asteroids) -> bool {
-        false
+        let mut result = false;
+        for asteroid in asteroid_list.list.iter() {
+            for i in 0..3 {
+                let ab = self.draw_vectors[(i + 1) % 3] - self.draw_vectors[i];
+                let ap = asteroid.pos - self.draw_vectors[i] - self.pos;
+                let t = (ap.dot(ab)) / ab.length_squared();
+                let t_clamped = clamp(t, 0.0, 1.0);
+                let projection = self.pos + self.draw_vectors[i] + t_clamped * ab;
+                if projection.distance(asteroid.pos) < asteroid.size {
+                    result = true;
+                }
+            }
+        }
+        result
     }
 }
