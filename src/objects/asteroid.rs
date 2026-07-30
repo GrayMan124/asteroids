@@ -27,6 +27,7 @@ impl Asteroid {
     }
 
     pub fn draw(&self, texture: &Texture2D) {
+        //Note: Hitbox
         // draw_circle_lines(
         //     self.pos[0],
         //     self.pos[1],
