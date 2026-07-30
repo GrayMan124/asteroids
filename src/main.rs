@@ -1,4 +1,5 @@
 use macroquad::prelude::*;
+use macroquad::texture::*;
 // use macroquad::rand;
 use macroquad::time;
 
@@ -23,9 +24,10 @@ async fn main() {
         target: vec2(SCR_W / 2., SCR_H / 2.),
         ..Default::default()
     });
+    let texture = load_texture("./assets/spaceship.png").await.unwrap();
     let mut projectiles_list: objects::Projectiles = objects::Projectiles::new();
     let mut asteroids_list: objects::Asteroids = objects::Asteroids::new();
-    let mut player = player::Player::new(Vec2::new(240., 240.));
+    let mut player = player::Player::new(Vec2::new(240., 240.), texture);
     let mut last_fps_check = 0.0;
     let mut score = 0;
     let mut game_state = GameState::MainMenu;
@@ -178,7 +180,8 @@ async fn main() {
                     game_state = GameState::MainMenu;
                     projectiles_list = objects::Projectiles::new();
                     asteroids_list = objects::Asteroids::new();
-                    player = player::Player::new(Vec2::new(240., 240.));
+                    let texture = load_texture("../assets/spaceship.png").await.unwrap();
+                    player = player::Player::new(Vec2::new(240., 240.), texture);
                     last_fps_check = 0.0;
                     score = 0;
                 }

@@ -1,7 +1,7 @@
 use std::f32::consts::PI;
 
 use super::objects;
-use macroquad::prelude::*;
+use macroquad::{prelude::*, texture};
 
 const PLAYER_SPEED: f32 = 1.;
 const ATTACK_SPEED: f64 = 0.10;
@@ -15,10 +15,11 @@ pub struct Player {
     offset: Vec2,
     attack_speed: f64,
     last_attack: f64,
+    texture: Texture2D,
 }
 
 impl Player {
-    pub fn new(position: Vec2) -> Player {
+    pub fn new(position: Vec2, texture: Texture2D) -> Player {
         Player {
             pos: position,
             curr_force: Vec2::new(0.0, 0.0),
@@ -32,10 +33,11 @@ impl Player {
             offset: Vec2::new(0.0, 0.0),
             attack_speed: ATTACK_SPEED,
             last_attack: 0.0,
+            texture: texture,
         }
     }
     pub fn draw_player(&self) {
-        draw_triangle(
+        draw_triangle_lines(
             Vec2 {
                 x: self.pos.x + self.draw_vectors[0][0],
                 y: self.pos.y + self.draw_vectors[0][1],
@@ -48,8 +50,10 @@ impl Player {
                 x: self.pos.x + self.draw_vectors[2][0],
                 y: self.pos.y + self.draw_vectors[2][1],
             },
-            WHITE,
+            3.0,
+            BLUE,
         );
+        draw_texture(&self.texture, self.pos.x, self.pos.y, WHITE);
     }
     pub fn update_pos(&mut self, delta: f32) {
         self.pos += self.curr_force * delta * self.speed;
