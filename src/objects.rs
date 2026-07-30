@@ -86,9 +86,13 @@ impl Asteroids {
             astr.update_pos(delta);
         }
     }
-    pub fn draw(&mut self) {
+    pub fn draw(&mut self, texture_1: &Texture2D, texture_2: &Texture2D) {
         for astr in self.list.iter() {
-            astr.draw();
+            let mut texture = texture_1;
+            if rand::gen_range(0, 2) == 1 {
+                texture = texture_1;
+            }
+            astr.draw(texture);
         }
     }
     pub fn clean_up(&mut self, screen_width: f32, screen_height: f32) {

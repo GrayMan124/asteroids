@@ -16,6 +16,7 @@ pub struct Player {
     attack_speed: f64,
     last_attack: f64,
     texture: Texture2D,
+    rotation: f32,
 }
 
 impl Player {
@@ -34,26 +35,38 @@ impl Player {
             attack_speed: ATTACK_SPEED,
             last_attack: 0.0,
             texture: texture,
+            rotation: 0.0,
         }
     }
     pub fn draw_player(&self) {
-        draw_triangle_lines(
-            Vec2 {
-                x: self.pos.x + self.draw_vectors[0][0],
-                y: self.pos.y + self.draw_vectors[0][1],
+        //NOTE: hitbox
+        // draw_triangle_lines(
+        //     Vec2 {
+        //         x: self.pos.x + self.draw_vectors[0][0],
+        //         y: self.pos.y + self.draw_vectors[0][1],
+        //     },
+        //     Vec2 {
+        //         x: self.pos.x + self.draw_vectors[1][0],
+        //         y: self.pos.y + self.draw_vectors[1][1],
+        //     },
+        //     Vec2 {
+        //         x: self.pos.x + self.draw_vectors[2][0],
+        //         y: self.pos.y + self.draw_vectors[2][1],
+        //     },
+        //     1.0,
+        //     BLUE,
+        // );
+        draw_texture_ex(
+            &self.texture,
+            self.pos.x - 16.,
+            self.pos.y - 16.,
+            WHITE,
+            DrawTextureParams {
+                rotation: self.rotation,
+                pivot: None,
+                ..Default::default()
             },
-            Vec2 {
-                x: self.pos.x + self.draw_vectors[1][0],
-                y: self.pos.y + self.draw_vectors[1][1],
-            },
-            Vec2 {
-                x: self.pos.x + self.draw_vectors[2][0],
-                y: self.pos.y + self.draw_vectors[2][1],
-            },
-            3.0,
-            BLUE,
         );
-        draw_texture(&self.texture, self.pos.x, self.pos.y, WHITE);
     }
     pub fn update_pos(&mut self, delta: f32) {
         self.pos += self.curr_force * delta * self.speed;
@@ -71,6 +84,7 @@ impl Player {
     }
     pub fn rotate(&mut self, dir: f32) {
         let angle = dir * PI / 96.;
+        self.rotation += angle;
         self.offset = self.calculate_avg();
         for i in 0..3 {
             self.draw_vectors[i] -= self.offset;

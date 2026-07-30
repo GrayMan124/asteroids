@@ -24,10 +24,12 @@ async fn main() {
         target: vec2(SCR_W / 2., SCR_H / 2.),
         ..Default::default()
     });
-    let texture = load_texture("./assets/spaceship.png").await.unwrap();
+    let texture_spaceship = load_texture("./assets/spaceship.png").await.unwrap();
+    let texture_asteroid_1 = load_texture("./assets/asteroid_1.png").await.unwrap();
+    let texture_asteroid_2 = load_texture("./assets/asteroid_2.png").await.unwrap();
     let mut projectiles_list: objects::Projectiles = objects::Projectiles::new();
     let mut asteroids_list: objects::Asteroids = objects::Asteroids::new();
-    let mut player = player::Player::new(Vec2::new(240., 240.), texture);
+    let mut player = player::Player::new(Vec2::new(240., 240.), texture_spaceship);
     let mut last_fps_check = 0.0;
     let mut score = 0;
     let mut game_state = GameState::MainMenu;
@@ -101,7 +103,7 @@ async fn main() {
                 projectiles_list.draw();
                 projectiles_list.update_pos(delta);
                 asteroids_list.spawn(time::get_time(), SCR_W, SCR_H);
-                asteroids_list.draw();
+                asteroids_list.draw(&texture_asteroid_1, &texture_asteroid_2);
                 asteroids_list.update_pos(delta);
                 score += check_collsion_asteroids(&mut asteroids_list, &mut projectiles_list);
                 asteroids_list.clean_up(SCR_W, SCR_H);
