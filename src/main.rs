@@ -1,5 +1,7 @@
+use macroquad::experimental::animation;
+use macroquad::experimental::animation::AnimatedSprite;
 use macroquad::prelude::*;
-use macroquad::texture::*;
+// use macroquad::texture::*;
 // use macroquad::rand;
 use macroquad::time;
 
@@ -24,9 +26,30 @@ async fn main() {
         target: vec2(SCR_W / 2., SCR_H / 2.),
         ..Default::default()
     });
-    let texture_spaceship = load_texture("./assets/spaceship.png").await.unwrap();
+    //NOTE: This could be moved somewhere - lifetimes would save us! KEKW
+    let texture_spaceship = load_texture("./assets/spaceship_anim.png").await.unwrap();
     let texture_asteroid_1 = load_texture("./assets/asteroid_1.png").await.unwrap();
     let texture_asteroid_2 = load_texture("./assets/asteroid_2.png").await.unwrap();
+    let mut spaceship_sprite = AnimatedSprite::new(
+        32,
+        32,
+        &[
+            animation::Animation {
+                name: "ignite".to_string(),
+                row: 0,
+                frames: 10,
+                fps: 12,
+            },
+            animation::Animation {
+                name: "running".to_string(),
+                row: 1,
+                frames: 4,
+                fps: 12,
+            },
+        ],
+        true,
+    );
+    spaceship_sprite.set_animation(1);
     let mut projectiles_list: objects::Projectiles = objects::Projectiles::new();
     let mut asteroids_list: objects::Asteroids = objects::Asteroids::new();
     let mut player = player::Player::new(Vec2::new(240., 240.), texture_spaceship);
@@ -108,7 +131,8 @@ async fn main() {
                 score += check_collsion_asteroids(&mut asteroids_list, &mut projectiles_list);
                 asteroids_list.clean_up(SCR_W, SCR_H);
                 projectiles_list.clean_up(SCR_W, SCR_H);
-                player.draw_player();
+                let player_frame = spaceship_sprite.frame();
+                player.draw_player(player_frame);
                 if player.check_collision(&asteroids_list) {
                     game_state = GameState::GameOver;
                 };
@@ -116,6 +140,7 @@ async fn main() {
                     println!("Current fps: {}", time::get_fps());
                     last_fps_check = time::get_time();
                 }
+                spaceship_sprite.update();
                 next_frame().await
             }
             GameState::Paused => {

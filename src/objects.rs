@@ -1,4 +1,3 @@
-// use macroquad::math;
 use macroquad::prelude::*;
 mod asteroid;
 pub mod projectile;
@@ -86,7 +85,7 @@ impl Asteroids {
             astr.update_pos(delta);
         }
     }
-    pub fn draw(&mut self, texture_1: &Texture2D, texture_2: &Texture2D) {
+    pub fn draw(&mut self, texture_1: &Texture2D, _texture_2: &Texture2D) {
         for astr in self.list.iter() {
             let mut texture = texture_1;
             if rand::gen_range(0, 2) == 1 {

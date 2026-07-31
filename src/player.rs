@@ -1,7 +1,7 @@
 use std::f32::consts::PI;
 
 use super::objects;
-use macroquad::{prelude::*, texture};
+use macroquad::{experimental::animation::*, prelude::*};
 
 const PLAYER_SPEED: f32 = 1.;
 const ATTACK_SPEED: f64 = 0.10;
@@ -38,7 +38,7 @@ impl Player {
             rotation: 0.0,
         }
     }
-    pub fn draw_player(&self) {
+    pub fn draw_player(&self, frame: AnimationFrame) {
         //NOTE: hitbox
         // draw_triangle_lines(
         //     Vec2 {
@@ -63,6 +63,8 @@ impl Player {
             WHITE,
             DrawTextureParams {
                 rotation: self.rotation,
+                source: Some(frame.source_rect),
+                dest_size: Some(frame.dest_size),
                 pivot: None,
                 ..Default::default()
             },

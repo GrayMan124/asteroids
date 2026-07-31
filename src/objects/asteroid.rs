@@ -1,7 +1,5 @@
 use macroquad::prelude::*;
 
-const ASTEROID_THICKNESS: f32 = 1.5;
-
 pub struct Asteroid {
     pub pos: Vec2,
     curr_force: Vec2,
